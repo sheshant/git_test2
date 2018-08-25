@@ -1,0 +1,27 @@
+{% for task in tasks %}
+  <tr>
+    <td>{{ task.id }}</td>
+    <td>{{ task.title }}</td>
+    <td>{{ task.description }}</td>
+    <td>{{ task.due_date }}</td>
+    <td>{{ task.status }}</td>
+    <td>{{ task.time_interval }}</td>
+    <td>{{ task.sub_tasks }}</td>
+    <td style="width: 150px">
+      <button type="button"
+              class="btn btn-warning btn-sm js-update-task"
+              data-url="{% url 'tasks:task_update' task.id %}">
+        <span class="glyphicon glyphicon-pencil"></span> Edit
+      </button>
+      <button type="button"
+              class="btn btn-danger btn-sm js-delete-task"
+              data-url="{% url 'tasks:task_delete' task.id %}">
+        <span class="glyphicon glyphicon-trash"></span> Delete
+      </button>
+    </td>
+  </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No task</td>
+  </tr>
+{% endfor %}

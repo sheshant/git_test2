@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block javascript %}
+	<script src="{% static 'tasks/js/tasks.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <script>
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+    function search() {
+        var title = $('#title-search').val();
+        var url = updateQueryStringParameter(window.location.href, 'title', title);
+        window.location.href = url;
+    }
+
+    function filter() {
+        var due_date_filter = $('#due_date_filter-search').val();
+        var url = updateQueryStringParameter(window.location.href, 'due_date_filter', due_date_filter);
+        window.location.href = url;
+    }
+
+
+    </script>
+
+	<h1 class="page-header">Tasks</h1>
+
+	<p>
+		<button type="button" class="btn btn-primary js-create-task" data-url="{% url 'tasks:task_create' %}">
+			<span class="glyphicon glyphicon-plus"></span>
+			New task
+		</button>
+		{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+	</p>
+    <div style="padding: 20px;">
+        <input type="text" class="form-control" id="title-search" placeholder="Enter title to search">
+        <button type="button" class="btn btn-default" onclick="search()">Search</button>
+    </div>
+    <div style="padding: 20px;">
+        <input type="text" class="form-control" id="due_date_filter-search" placeholder="Enter filter to apply
+        must be one of ('today', 'this_week', 'next_week', 'overdue')">
+        <button type="button" class="btn btn-default" onclick="filter()">apply filter</button>
+    </div>
+
+	<table class="table" id="task-table">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Due Date</th>
+				<th>Status</th>
+				<th>Time Interval</th>
+				<th>Sub Tasks</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% include 'tasks/includes/partial_task_list.html' %}
+		</tbody>
+	</table>
+
+	<div class="modal fade" id="modal-task">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
