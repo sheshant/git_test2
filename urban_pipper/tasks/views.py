@@ -26,6 +26,7 @@ def get_task_list(request):
 
     elif due_date_filter == 'next_week':
         end_date = start_date + timedelta(13 - start_date.weekday())
+        start_date = start_date + timedelta(6 - start_date.weekday())
         task_list = task_list.filter(due_date__gte=start_date, due_date__lte=end_date)
 
     elif due_date_filter == 'overdue':
@@ -43,6 +44,7 @@ def get_messages(request):
 
 
 def task_list(request):
+    Task.delete_redundant_tasks()
     tasks = get_task_list(request)
     get_messages(request)
     return render(request, 'tasks/task_list.html', {'tasks': tasks})

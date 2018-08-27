@@ -1,0 +1,34 @@
+This is the documentation for the project Task manager 
+
+for admin screen, the username is "sheshant" and password is "recursive"
+
+To run the project, create a virtual environment and install all the files from requirements.txt
+The defalt database used here is sqlite which is default internal database for python django project
+to start the app, go to the folder having manage.py file and run the command ./manage.py runserver and go to url 
+'http://localhost:8000/tasks/'
+this will lead to the home screen.
+to view all the tasks click on tasks. This will display all the tasks and so here you can create a new task after 
+clicking on the new task button and it will display a modal with all the required fields. Fill up all the fields. For date, use format 'YYYY-MM-DD'
+
+After saving the fields if you wish to update it, you can update it any time and also delete it any time. the corresponding record will be marked for deletion and won't be actually deleted 
+
+the columns are 
+Title                   the title of task
+Description             the Description for task
+Due date                the due date for the task
+Status                  status of task whether it is pending or not
+Hours before due date   when to receive alert message
+
+A message will be displayed on the screen if task is pending and not deleted and difference between current date and due date is less than 'Hours before due date' for the current task
+
+We can also apply filters. There are 2 types of filters, One for due date and one for title 
+
+In the title filter, just search for the title. In case of empty title searched, it will display all the results
+In case of due date filter, search for the keywords ['today', 'this_week', 'next_week', 'overdue'] 
+and it will display the corresponding results. In all other cases it will do nothing
+
+Note: All the redundant tasks will be deleted automatically whenever page is loaded
+A task can have many subtasks also which will also be displayed. 
+You can assign subtasks on the admin screen on the table Sub Task Mapping where you can assign parent task and child task
+
+
